@@ -1,11 +1,11 @@
 import { fetch_test } from './../data-access/test';
 import { question } from './../model/question';
 
-export function test(){
+export function test(category: number){
 
 	return new Promise(function(resolve, reject){
 
-		fetch_test().then(function(ids: any){
+		fetch_test(category).then(function(ids: any){
 
 			let q: any = [];
 

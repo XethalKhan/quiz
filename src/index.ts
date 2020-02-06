@@ -5,8 +5,6 @@ import { routes } from './routes';
 
 const app: Application = express();
 
-app.use("/static", express.static('src/public'));
-
 routes(app);
 
 app.listen(3000, () => {

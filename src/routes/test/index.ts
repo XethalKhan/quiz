@@ -8,7 +8,15 @@ export function routes(app: Application){
 
 	app.get("/test", function(req: Request, res: Response){
 		
-		TestModel.test().then(function(data: any){
+		let category = req.query.category;
+
+		if(/\d/.test(category)){
+			category = Number(category);
+		}else{
+			category = 0;
+		}
+
+		TestModel.test(category).then(function(data: any){
 
 			res.send({"questions": data});
 

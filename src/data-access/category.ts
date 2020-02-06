@@ -5,7 +5,7 @@ export function fetch_categories(){
 	return new Promise(function(resolve, reject){
 
 		sql.query(
-			"SELECT id, parent_id AS parent, name, description FROM category",
+			"SELECT id, parent_id AS parent, name, description FROM category ORDER BY name ASC",
 			function (err, data){             
 		        if(err){
 		            reject(err);

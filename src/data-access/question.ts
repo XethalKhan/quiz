@@ -59,7 +59,7 @@ export function fetch_answers(id: number){
 					case 1:{
 
 						sql.query(
-							"SELECT correct, text FROM mcq_answer WHERE question_id = ?",
+							"SELECT correct, text FROM mcq_answer WHERE question_id = ? ORDER BY RAND()",
 							id,
 							function (err, answers: any){             
 						        if(err){
