@@ -1,0 +1,89 @@
+<html>
+	<head>
+		<title>Questions light client</title>
+		<script>
+
+			function createQuestion(){
+
+				let obj = {};
+
+				obj.question = document.getElementById("q").value;
+
+				obj.category = Number(document.getElementById("cat").value);
+
+				obj.type = 1;
+
+				obj.answers = [];
+
+				let test = false;
+
+				for(let i = 1; i <= 8; i ++){
+					let txt = document.getElementById("ans" + i).value;
+					if(txt === ""){
+						continue;
+					}
+
+					if(document.getElementById("cor" + i).checked === true){
+						test = true;
+					}
+
+					obj.answers.push({"correct": document.getElementById("cor" + i).checked, "text": txt})
+				}
+
+				console.log(obj);
+
+				if(test === true){
+					var xhttp = new XMLHttpRequest();
+					xhttp.onreadystatechange = function() {
+						if (this.readyState == 4 && this.status == 201){
+
+							alert(this.responseText);
+
+						}
+					};
+					xhttp.open("POST", "http://localhost:3000/question", true);
+					xhttp.setRequestHeader("Content-Type", "application/json");
+					xhttp.send(JSON.stringify(obj));
+				}else{
+					alert("Bar jedan odgovor mora biti tacan.");
+				}
+			}
+
+			function loadCategories() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200){
+
+						let data = JSON.parse(this.responseText);
+						let list = "<option value=\"0\">Root</option>";
+
+						for(let i = 0; i < data.length; i++){
+							list += "<option value=\"" + data[i].id + "\">" + data[i].name + "</option>";
+						}
+
+						document.getElementById("cat").innerHTML = list;
+					}
+				};
+				xhttp.open("GET", "http://localhost:3000/category", true);
+				xhttp.send();
+			}
+
+		</script>
+	</head>
+	<body onLoad="loadCategories()">
+		<a href="./index.html">Back</a><br/><br/>
+		<form>
+			<textarea id="q" cols="80" rows="10"></textarea><br/><br/>
+			<select id="cat"></select><br/><br/>
+			Correct 1: <input type="checkbox" id="cor1"/>&nbsp;&nbsp;&nbsp; Text 1: <textarea id="ans1" cols="60" rows="3"></textarea><br/>
+			Correct 2: <input type="checkbox" id="cor2"/>&nbsp;&nbsp;&nbsp; Text 2: <textarea id="ans2" cols="60" rows="3"></textarea><br/>
+			Correct 3: <input type="checkbox" id="cor3"/>&nbsp;&nbsp;&nbsp; Text 3: <textarea id="ans3" cols="60" rows="3"></textarea><br/>
+			Correct 4: <input type="checkbox" id="cor4"/>&nbsp;&nbsp;&nbsp; Text 4: <textarea id="ans4" cols="60" rows="3"></textarea><br/>
+			Correct 5: <input type="checkbox" id="cor5"/>&nbsp;&nbsp;&nbsp; Text 5: <textarea id="ans5" cols="60" rows="3"></textarea><br/>
+			Correct 6: <input type="checkbox" id="cor6"/>&nbsp;&nbsp;&nbsp; Text 6: <textarea id="ans6" cols="60" rows="3"></textarea><br/>
+			Correct 7: <input type="checkbox" id="cor7"/>&nbsp;&nbsp;&nbsp; Text 7: <textarea id="ans7" cols="60" rows="3"></textarea><br/>
+			Correct 8: <input type="checkbox" id="cor8"/>&nbsp;&nbsp;&nbsp; Text 8: <textarea id="ans8" cols="60" rows="3"></textarea><br/>
+		</form>
+		<button onClick="createQuestion()">Save</button>
+	</body>
+</html>

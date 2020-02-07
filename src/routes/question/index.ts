@@ -35,6 +35,20 @@ export function routes(app: Application){
 
 	});
 
+	app.post("/question", function(req: Request, res: Response){
 
+		QuestionModel.create_question(req.body).then(function(data){
+
+			res.status(201);
+			res.send(true);
+
+		}).catch(function(err){
+
+			console.log("error: ", err);
+			res.send(err);
+
+		});
+
+	});
 
 }

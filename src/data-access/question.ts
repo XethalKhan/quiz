@@ -109,3 +109,45 @@ export function fetch_answers(id: number){
 	});
 
 }
+
+export function insert_question(text: string, category: number, type: number){
+
+	return new Promise(function(resolve, reject){
+
+		sql.query(
+			"INSERT INTO question(text, category_id, type_id) VALUES(?, ?, ?)",
+			[text, category, type],
+			function (err, data){             
+		        if(err){
+		            reject(err);
+		        }
+		        else{
+		            resolve(data.insertId);
+		        }
+		   }
+		);
+
+	});
+
+}
+
+export function insert_mcq_answer(question: number, correct: boolean, text: string){
+
+	return new Promise(function(resolve, reject){
+
+		sql.query(
+			"INSERT INTO mcq_answer(question_id, correct, text) VALUES(?, ?, ?)",
+			[question, correct, text],
+			function (err, data){             
+		        if(err){
+		            reject(err);
+		        }
+		        else{
+		            resolve(data);
+		        }
+		   }
+		);
+
+	});
+
+}

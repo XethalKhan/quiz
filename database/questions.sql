@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2020 at 02:58 PM
+-- Generation Time: Feb 07, 2020 at 03:32 PM
 -- Server version: 5.7.14
 -- PHP Version: 7.0.10
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `questions`
 --
+CREATE DATABASE IF NOT EXISTS `questions` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `questions`;
 
 -- --------------------------------------------------------
 
@@ -27,15 +29,13 @@ SET time_zone = "+00:00";
 --
 
 DROP TABLE IF EXISTS `category`;
-CREATE TABLE IF NOT EXISTS `category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of category',
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL COMMENT 'Identification number of category',
   `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Identification number of parent category',
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name of category',
   `description` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Description of category',
-  `date_created` timestamp NOT NULL COMMENT 'Date of category creation',
-  PRIMARY KEY (`id`),
-  KEY `ix_category_parent_id` (`parent_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of categories';
+  `date_created` timestamp NOT NULL COMMENT 'Date of category creation'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of categories';
 
 --
 -- Dumping data for table `category`
@@ -52,13 +52,11 @@ INSERT INTO `category` (`id`, `parent_id`, `name`, `description`, `date_created`
 --
 
 DROP TABLE IF EXISTS `ctd_blank`;
-CREATE TABLE IF NOT EXISTS `ctd_blank` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of blanks',
+CREATE TABLE `ctd_blank` (
+  `id` int(11) NOT NULL COMMENT 'Identification number of blanks',
   `question_id` int(11) NOT NULL COMMENT 'Identification number of question',
   `conn` int(11) NOT NULL DEFAULT '0' COMMENT 'Identification number of belonging connection',
-  `text` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Text of blank to fill',
-  PRIMARY KEY (`id`),
-  KEY `IX_CTD_BLANKS_QUESTION_ID` (`question_id`)
+  `text` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Text of blank to fill'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of connect the dots (CTD) blanks to fill.';
 
 -- --------------------------------------------------------
@@ -68,13 +66,11 @@ CREATE TABLE IF NOT EXISTS `ctd_blank` (
 --
 
 DROP TABLE IF EXISTS `ctd_option`;
-CREATE TABLE IF NOT EXISTS `ctd_option` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of CTD option',
+CREATE TABLE `ctd_option` (
+  `id` int(11) NOT NULL COMMENT 'Identification number of CTD option',
   `question_id` int(11) NOT NULL COMMENT 'Identification number of question',
   `conn` int(11) NOT NULL DEFAULT '0' COMMENT 'Identification number of belonging connection',
-  `text` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Text of option',
-  PRIMARY KEY (`id`),
-  KEY `IX_CTD_OPTIONS_QUESTION_ID` (`question_id`)
+  `text` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Text of option'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Tabke of options for connect the dots (CTD) questions.';
 
 -- --------------------------------------------------------
@@ -84,14 +80,12 @@ CREATE TABLE IF NOT EXISTS `ctd_option` (
 --
 
 DROP TABLE IF EXISTS `ftb_answer`;
-CREATE TABLE IF NOT EXISTS `ftb_answer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of FTB answer',
+CREATE TABLE `ftb_answer` (
+  `id` int(11) NOT NULL COMMENT 'Identification number of FTB answer',
   `question_id` int(11) NOT NULL COMMENT 'Identification number of question',
   `text` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Answer on FTB question',
-  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of FTB answer creation',
-  PRIMARY KEY (`id`),
-  KEY `ix_ftb_answer_question_id` (`question_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of answers for fill the blank (FTB) questions';
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of FTB answer creation'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of answers for fill the blank (FTB) questions';
 
 --
 -- Dumping data for table `ftb_answer`
@@ -107,13 +101,11 @@ INSERT INTO `ftb_answer` (`id`, `question_id`, `text`, `date_created`) VALUES
 --
 
 DROP TABLE IF EXISTS `hint`;
-CREATE TABLE IF NOT EXISTS `hint` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of hint',
+CREATE TABLE `hint` (
+  `id` int(11) NOT NULL COMMENT 'Identification number of hint',
   `question_id` int(11) NOT NULL COMMENT 'Identification number of question',
   `text` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Text of hint',
-  `level` int(11) NOT NULL DEFAULT '1' COMMENT 'Level how much help hint provides. Greater number => more help. From 1 - 1000.',
-  PRIMARY KEY (`id`),
-  KEY `IX_HINT_QUESTION_ID` (`question_id`)
+  `level` int(11) NOT NULL DEFAULT '1' COMMENT 'Level how much help hint provides. Greater number => more help. From 1 - 1000.'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of hints for a question.';
 
 -- --------------------------------------------------------
@@ -123,16 +115,13 @@ CREATE TABLE IF NOT EXISTS `hint` (
 --
 
 DROP TABLE IF EXISTS `mcq_answer`;
-CREATE TABLE IF NOT EXISTS `mcq_answer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of MCQ answer',
+CREATE TABLE `mcq_answer` (
+  `id` int(11) NOT NULL COMMENT 'Identification number of MCQ answer',
   `question_id` int(11) NOT NULL COMMENT 'Identification number of question',
   `correct` tinyint(1) NOT NULL COMMENT 'Is the answer correct',
   `text` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Text of possible answer',
-  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of MCQ answer creation',
-  PRIMARY KEY (`id`),
-  KEY `question_id` (`question_id`),
-  KEY `question_id_2` (`question_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of answers for multiple choice questions (MCQ)';
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of MCQ answer creation'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of answers for multiple choice questions (MCQ)';
 
 --
 -- Dumping data for table `mcq_answer`
@@ -217,7 +206,20 @@ INSERT INTO `mcq_answer` (`id`, `question_id`, `correct`, `text`, `date_created`
 (76, 18, 0, 'To assign the router to the all-nodes multicast group', '2020-02-06 14:32:51'),
 (77, 18, 1, 'To enable the router as an IPv6 router', '2020-02-06 14:32:51'),
 (78, 18, 0, 'To permit only unicast packets on the router', '2020-02-06 14:32:51'),
-(79, 18, 0, 'To prevent the router from joining the all-routers multicast group', '2020-02-06 14:32:51');
+(79, 18, 0, 'To prevent the router from joining the all-routers multicast group', '2020-02-06 14:32:51'),
+(82, 22, 1, 'Static routing is more secure because it does not advertise over network', '2020-02-07 14:21:48'),
+(83, 22, 0, 'Static routing scales well with expanding networks', '2020-02-07 14:21:48'),
+(84, 22, 0, 'Static routing requires very little knowledge of the network for correct implementation', '2020-02-07 14:21:48'),
+(85, 22, 1, 'Static routing uses fewer router resources than dynamic routing', '2020-02-07 14:21:48'),
+(86, 22, 0, 'Static routing is relatively easy to configure for large networks', '2020-02-07 14:21:48'),
+(87, 23, 0, 'ip route 209.165.200.228 255.255.255.248 serial0/0/0', '2020-02-07 15:09:12'),
+(88, 23, 1, 'ip route 209.165.200.228 255.255.255.248 10.0.0.1 120', '2020-02-07 15:09:12'),
+(89, 23, 0, 'ip route 0.0.0.0 0.0.0.0 serial0/0/0', '2020-02-07 15:09:12'),
+(90, 23, 0, 'ip route 172.16.0.0 255.248.0.0 10.0.0.1', '2020-02-07 15:09:12'),
+(91, 24, 0, 'It backs up a route already discovered by a dynamic routing protocol', '2020-02-07 15:14:46'),
+(92, 24, 0, 'It uses a single network address to send multiple static routes to one destination address', '2020-02-07 15:14:46'),
+(93, 24, 1, 'It identifies the gateway IP address to which the router sends all IP packets for which it does not have a learned or static route', '2020-02-07 15:14:46'),
+(94, 24, 0, 'It is configured with a higher administrative distance than the original dynamic routing protocol has', '2020-02-07 15:14:46');
 
 -- --------------------------------------------------------
 
@@ -226,14 +228,13 @@ INSERT INTO `mcq_answer` (`id`, `question_id`, `correct`, `text`, `date_created`
 --
 
 DROP TABLE IF EXISTS `question`;
-CREATE TABLE IF NOT EXISTS `question` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of question',
+CREATE TABLE `question` (
+  `id` int(11) NOT NULL COMMENT 'Identification number of question',
   `text` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Text of a question',
   `category_id` int(11) NOT NULL COMMENT 'Identification number of category',
   `type_id` int(11) NOT NULL COMMENT 'Identification number of type of question',
-  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of question creation',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of questions';
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of question creation'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of questions';
 
 --
 -- Dumping data for table `question`
@@ -257,7 +258,10 @@ INSERT INTO `question` (`id`, `text`, `category_id`, `type_id`, `date_created`) 
 (15, 'A network administrator configures the interface fa0/0 on the router R1 with the command "ip address 172.16.1.254 255.255.255.0". However, when the administrator issues the command "show ip route", the routing table does not show the directly connected network. What is the possible cause of the problem?', 1, 1, '2020-02-06 14:18:07'),
 (16, 'A network administrator configures a router by the command "ip route 0.0.0.0 0.0.0.0 209.165.200.226". What is the purpose of this command?', 1, 1, '2020-02-06 14:21:05'),
 (17, 'What are two common types of static routes in routing tables? (Choose two)', 1, 1, '2020-02-06 14:27:48'),
-(18, 'What is the effect of configuring the "ipv6 unicast-routing" command on a router?', 1, 1, '2020-02-06 14:31:21');
+(18, 'What is the effect of configuring the "ipv6 unicast-routing" command on a router?', 1, 1, '2020-02-06 14:31:21'),
+(22, 'What are two advantages of static routing over dynamic routing? (Choose two.)', 2, 1, '2020-02-07 14:21:48'),
+(23, 'What is the correct syntax of a floating static route?', 2, 1, '2020-02-07 15:09:12'),
+(24, 'What is a characteristic of a static route that matches all packets?', 2, 1, '2020-02-07 15:14:46');
 
 -- --------------------------------------------------------
 
@@ -266,13 +270,12 @@ INSERT INTO `question` (`id`, `text`, `category_id`, `type_id`, `date_created`) 
 --
 
 DROP TABLE IF EXISTS `type`;
-CREATE TABLE IF NOT EXISTS `type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of question type',
+CREATE TABLE `type` (
+  `id` int(11) NOT NULL COMMENT 'Identification number of question type',
   `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Name of question type',
   `description` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Description of question type',
-  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of question type creation',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of question types';
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of question type creation'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Table of question types';
 
 --
 -- Dumping data for table `type`
@@ -282,6 +285,109 @@ INSERT INTO `type` (`id`, `name`, `description`, `date_created`) VALUES
 (1, 'Multiple choice question', 'Questions with multiple options for answers. One or more options are correct.', '2020-01-30 15:47:25'),
 (2, 'Fill in the blank', 'In question there is one blank line that needs to be filled with correct string.', '2020-02-04 12:41:46');
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IX_CATEGORY_PARENT_ID` (`parent_id`);
+
+--
+-- Indexes for table `ctd_blank`
+--
+ALTER TABLE `ctd_blank`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IX_CTD_BLANKS_QUESTION_ID` (`question_id`);
+
+--
+-- Indexes for table `ctd_option`
+--
+ALTER TABLE `ctd_option`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IX_CTD_OPTIONS_QUESTION_ID` (`question_id`);
+
+--
+-- Indexes for table `ftb_answer`
+--
+ALTER TABLE `ftb_answer`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IX_FTB_ANSWER_QUESTION_ID` (`question_id`);
+
+--
+-- Indexes for table `hint`
+--
+ALTER TABLE `hint`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IX_HINT_QUESTION_ID` (`question_id`);
+
+--
+-- Indexes for table `mcq_answer`
+--
+ALTER TABLE `mcq_answer`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `question_id` (`question_id`),
+  ADD KEY `question_id_2` (`question_id`);
+
+--
+-- Indexes for table `question`
+--
+ALTER TABLE `question`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `type`
+--
+ALTER TABLE `type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of category', AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `ctd_blank`
+--
+ALTER TABLE `ctd_blank`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of blanks';
+--
+-- AUTO_INCREMENT for table `ctd_option`
+--
+ALTER TABLE `ctd_option`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of CTD option';
+--
+-- AUTO_INCREMENT for table `ftb_answer`
+--
+ALTER TABLE `ftb_answer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of FTB answer', AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `hint`
+--
+ALTER TABLE `hint`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of hint';
+--
+-- AUTO_INCREMENT for table `mcq_answer`
+--
+ALTER TABLE `mcq_answer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of MCQ answer', AUTO_INCREMENT=95;
+--
+-- AUTO_INCREMENT for table `question`
+--
+ALTER TABLE `question`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of question', AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT for table `type`
+--
+ALTER TABLE `type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Identification number of question type', AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Questions thin client</title>
+		<title>Questions light client</title>
 		<script>
 			var test;
 
@@ -17,7 +17,7 @@
 						}
 						list += "</ul>";
 
-						document.getElementById("left").innerHTML = list;
+						document.getElementById("cats").innerHTML = list;
 					}
 				};
 				xhttp.open("GET", "http://localhost:3000/category", true);
@@ -79,7 +79,6 @@
 					}
 
 					if(good === false){
-						console.log(document.getElementById("q_" + q).style);
 						document.getElementById("q_" + q).style.border = "thick solid red";
 					}else{
 						document.getElementById("q_" + q).style.border = "thick solid green";
@@ -105,7 +104,8 @@
 	<body onLoad="loadCategories()">
 		<!--<button onClick="loadCategories()">Kategorije</button>-->
 		<div id="left" style="float: left; width:20%; height: 100%">
-
+			<a href="./insert.html">New question</a><br/>
+			<div id="cats"></div>
 		</div>
 		<div id="right" style="float: left; width:80%">
 			
