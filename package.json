@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
+    "loadtest": "loadtest",
     "compile": "tsc && node out/index.js ",
+    "stresstest": "loadtest -n 1000 -c 10 http://localhost:3000/question",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node out/index.js",
     "dev": "nodemon -e ts --exec \"npm run compile\""
@@ -19,6 +21,7 @@
   "devDependencies": {
     "@types/express": "^4.17.2",
     "@types/mysql": "^2.15.8",
+    "loadtest": "^4.1.0",
     "nodemon": "^2.0.2",
     "typescript": "^3.7.5"
   }

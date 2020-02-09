@@ -7,7 +7,7 @@ import * as test from './test';
 
 export function routes(app: Application){
 
-	app.use("/", express.static('src/public'));
+	app.use("/", express.static('static'));
 
 	question.routes(app);
 	category.routes(app);

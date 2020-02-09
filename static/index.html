@@ -13,7 +13,7 @@
 						let list = "<ul style=\"list-style: none;\">";
 
 						for(let i = 0; i < data.length; i++){
-							list += "<li style=\"margin: 30px\"><span class=\"category-select\" onClick=\"loadTest(" + data[i].id + ")\">" + data[i].name + "</span></li>";
+							list += "<li class=\"category-select\" onClick=\"loadTest(" + data[i].id + ")\">" + data[i].name + "</li>";
 						}
 						list += "</ul>";
 
@@ -93,6 +93,8 @@
 				padding:10px;
 				cursor: pointer;
 				border: 1px solid black;
+				margin: 10px;
+				text-align: center
 			}
 
 			p{
