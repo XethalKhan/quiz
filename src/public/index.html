@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<title>Questions light client</title>
+		<script>
+			var test;
+
+			function loadCategories() {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200){
+
+						let data = JSON.parse(this.responseText);
+						let list = "<ul style=\"list-style: none;\">";
+
+						for(let i = 0; i < data.length; i++){
+							list += "<li style=\"margin: 30px\"><span class=\"category-select\" onClick=\"loadTest(" + data[i].id + ")\">" + data[i].name + "</span></li>";
+						}
+						list += "</ul>";
+
+						document.getElementById("cats").innerHTML = list;
+					}
+				};
+				xhttp.open("GET", "http://localhost:3000/category", true);
+				xhttp.send();
+			}
+
+			function loadTest(cat) {
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200){
+
+						let data = JSON.parse(this.responseText);
+						let list = "<div>";
+
+						test = data;
+
+						for(let i = 0; i < data.questions.length; i++){
+							list += "<div style=\"margin: 10px\">" +
+								"<p id=\"q_" + i + "\">Question " + (i + 1) + ": " + data.questions[i].text + "</p>";
+
+							for(let a = 0; a < data.questions[i].answer.length; a++){
+								list += "<input type=\"checkbox\" id=\"q_" + i + "_a_" + a + "\" value=\"" + data.questions[i].answer[a].correct + "\">" + data.questions[i].answer[a].text + "</input><br/>";
+							}
+
+							list += "</div>";
+						}
+						list += "</div>";
+
+						list += "<button onClick=\"checkTest()\">Check</button><br/><br/>";
+
+						document.getElementById("right").innerHTML = list;
+						
+					}
+				};
+				xhttp.open("GET", "http://localhost:3000/test?category=" + cat, true);
+				xhttp.send();
+			}
+
+			function checkTest(){
+				
+
+				for(let q = 0; q < test.questions.length; q++){
+
+					let ans = test.questions[q].answer;
+
+					let good = true;
+
+					for(let a = 0; a < ans.length; a++){
+
+						let cbx = document.getElementById("q_" + q + "_a_" + a);
+
+						let test = cbx.checked;
+
+						if(test !== ans[a].correct){
+							good = false;
+							break;
+						}
+
+					}
+
+					if(good === false){
+						document.getElementById("q_" + q).style.border = "thick solid red";
+					}else{
+						document.getElementById("q_" + q).style.border = "thick solid green";
+					}
+
+				}
+			}
+		</script>
+		<style>
+			.category-select{
+				background-color: yellow;
+				padding:10px;
+				cursor: pointer;
+				border: 1px solid black;
+			}
+
+			p{
+				font-weight:bold;
+				border: thick solid white;
+			}
+		</style>
+	</head>
+	<body onLoad="loadCategories()">
+		<!--<button onClick="loadCategories()">Kategorije</button>-->
+		<div id="left" style="float: left; width:20%; height: 100%">
+			<a href="./insert.html">New question</a><br/>
+			<div id="cats"></div>
+		</div>
+		<div id="right" style="float: left; width:80%">
+			
+		</div>
+	</body>
+</html>
